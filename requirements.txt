@@ -1,0 +1,8 @@
+tqdm
+pandas
+google_play_scraper
+dotenv
+seaborn
+matplotlib
+psycopg2
+pytest
