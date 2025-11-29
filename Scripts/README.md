@@ -1,1 +1,5 @@
-"# news-sentiment-stocks-week1" 
+
+# Preprocessing Report
+- Original: 1200
+- Final: 1200
+- Retention: 100.00%

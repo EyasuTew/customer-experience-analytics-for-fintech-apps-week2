@@ -29,7 +29,7 @@ from datetime import datetime
 # Import re module for regular expression operations (used for text cleaning)
 import re
 # Import DATA_PATHS dictionary from the local config module
-from config import DATA_PATHS
+from .config import DATA_PATHS
 
 
 class ReviewPreprocessor:
@@ -109,6 +109,16 @@ class ReviewPreprocessor:
             print("\nWARNING: Missing values in critical columns:")
             # Print the counts of missing values for the critical columns that have them
             print(missing_critical[missing_critical > 0])
+
+    def remove_duplicates(self):
+            """Remove duplicate reviews based on review_id"""  # RE-ADDED
+            print("[NEW] Removing duplicates...")
+            before_count = len(self.df)
+            self.df = self.df.drop_duplicates(subset=['review_id'])
+            removed = before_count - len(self.df)
+            if removed > 0:
+                print(f"Removed {removed} duplicate reviews")
+            self.stats['duplicates_removed'] = removed
 
     def handle_missing_values(self):
         """Handle missing values"""
@@ -370,7 +380,7 @@ class ReviewPreprocessor:
 
         # Run each step of the pipeline in sequence
         self.check_missing_data()
-        # self.remove_duplicates() - REMOVED AS REQUESTED
+        self.remove_duplicates() #- REMOVED AS REQUESTED
         self.handle_missing_values()
         self.normalize_dates()
         self.clean_text()

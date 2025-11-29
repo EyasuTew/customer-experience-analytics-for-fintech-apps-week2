@@ -5,3 +5,4 @@ dotenv
 seaborn
 matplotlib
 psycopg2
+pytest
