@@ -11,3 +11,5 @@ vaderSentiment
 transformers
 spacy
 scikit-learn
+psycopg2-binary
+sqlalchemy

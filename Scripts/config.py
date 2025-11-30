@@ -41,6 +41,11 @@ DATA_PATHS = {
 }
 
 
+# ... (existing)
+DB_CONFIG = {
+    'postgres_uri': os.getenv('DB_POSTGRES_URI', 'postgresql://postgres:postgres@localhost:5432/bank_reviews')  # Default; update .env
+}
+
 
 
 
