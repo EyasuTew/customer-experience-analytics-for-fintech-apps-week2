@@ -29,7 +29,7 @@ See `Scripts/README.md` for stats.
 
 
 ## Task 3: PostgreSQL Storage
-- **Setup**: Install PostgreSQL (e.g., `brew install postgresql`; `createdb bank_reviews`). Run `psql -U postgres -d bank_reviews -f db_schema.sql`.
+- **Setup**: Install PostgreSQL (e.g., `brew install postgresql`; `createdb bank_reviews`). Run `psql -U postgres -d bank_reviews -f schema.sql`.
 - **Insertion**: `python db_insert.py` (loads from Task 2 CSV; inserts 1,200+ rows).
 - **Verification**: Queries in schema.sql; e.g., `SELECT COUNT(*) FROM reviews;` → 1,200.
 - **Dump**: `pg_dump -U postgres bank_reviews > bank_reviews_dump.sql` (commit dump/schema).
@@ -42,10 +42,10 @@ Run Instructions
 3. Env: Add to .env: DB_POSTGRES_URI=postgresql://postgres:yourpass@localhost:5432/bank_reviews.
 4. git checkout -b task-3
 5. pip install -r requirements.txt (includes psycopg2-binary).
-6. Run schema: psql -U postgres -d bank_reviews -f db_schema.sql.
+6. Run schema: psql -U postgres -d bank_reviews -f schema.sql.
 7. Ensure Task 2 CSV: Run notebook/script.
 python db_insert.py (inserts >1,000; verifies).
-Test Query: In psql: \i db_schema.sql (run verification at end).
+Test Query: In psql: \i schema.sql (run verification at end).
 Dump: pg_dump -U postgres -d bank_reviews > data/db_dump.sql (commit anonymized sample).
 
 db schema
