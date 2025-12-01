@@ -24,3 +24,54 @@ See `Scripts/README.md` for stats.
 ## Test
 - `pytest test\test_preprocessing.py -v`
 - `pytest`
+
+
+
+
+## Task 3: PostgreSQL Storage
+- **Setup**: Install PostgreSQL (e.g., `brew install postgresql`; `createdb bank_reviews`). Run `psql -U postgres -d bank_reviews -f schema.sql`.
+- **Insertion**: `python db_insert.py` (loads from Task 2 CSV; inserts 1,200+ rows).
+- **Verification**: Queries in schema.sql; e.g., `SELECT COUNT(*) FROM reviews;` → 1,200.
+- **Dump**: `pg_dump -U postgres bank_reviews > bank_reviews_dump.sql` (commit dump/schema).
+- **Refs**: [SQLAlchemy Docs](https://docs.sqlalchemy.org/en/20/).
+
+Run Instructions
+
+1. Install Postgres: Windows: Download from postgresql.org. Mac: brew install postgresql && brew services start postgresql. 
+2. Create user/DB: createuser -s postgres; createdb bank_reviews.
+3. Env: Add to .env: DB_POSTGRES_URI=postgresql://postgres:yourpass@localhost:5432/bank_reviews.
+4. git checkout -b task-3
+5. pip install -r requirements.txt (includes psycopg2-binary).
+6. Run schema: psql -U postgres -d bank_reviews -f schema.sql.
+7. Ensure Task 2 CSV: Run notebook/script.
+python db_insert.py (inserts >1,000; verifies).
+Test Query: In psql: \i schema.sql (run verification at end).
+Dump: pg_dump -U postgres -d bank_reviews > data/db_dump.sql (commit anonymized sample).
+
+db schema
+
+```
+-- 1. Drop the child table first (the one with the foreign key)
+DROP TABLE IF EXISTS reviews;
+
+-- 2. Drop the parent table second
+DROP TABLE IF EXISTS banks;
+
+-- 3. Now recreate them
+CREATE TABLE banks (
+    bank_id SERIAL PRIMARY KEY,
+    bank_name VARCHAR(255) NOT NULL UNIQUE,
+    app_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE reviews (
+    review_id VARCHAR(255) PRIMARY KEY,
+    bank_id INTEGER NOT NULL REFERENCES banks(bank_id) ON DELETE CASCADE,
+    review_text TEXT NOT NULL,
+    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+    review_date DATE NOT NULL,
+    sentiment_label VARCHAR(50),
+    sentiment_score DECIMAL(3,2),
+    source VARCHAR(50) DEFAULT 'Google Play',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);```
